@@ -1,0 +1,19 @@
+# kubectl api-resources
+# kubectl api-versions
+# kubectl explain services
+# ports: 30000 - 30000-32767  - https://kubernetes.io/docs/concepts/services-networking/service/#nodeport
+# kubectl get services
+# kubectl expose deployment simple-webapp-deployment --name=webapp-service --target-port=8080 --type=NodePort --port=8080 --dry-run=client -o yam
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 80
+      port: 80
+      nodePort: 30008
+  selector:
+    app: myapp
+    type: front-end

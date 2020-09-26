@@ -1,0 +1,19 @@
+# kubectl api-resources
+# kubectl api-versions
+# kubectl explain pods
+# kubectl create -f pod-definition.yml
+# kubectl get pods
+# kubectl describe pod myapp-pod
+# kubectl run nginx --image=nginx
+# kubectl run redis --image=redis --dry-run=client -o yaml > pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    type: front-end
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx

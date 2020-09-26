@@ -1,0 +1,11 @@
+# kubectl api-resources
+# kubectl api-versions
+# kubectl explain namespace
+# kubectl get pods --namespace=dev
+# kubectl config set-context $(kubectl config current-context) --namespace=dev -> set the default namespace to dev 
+# kubectl get pods --all-namespaces
+# kubectl get namespaces --no-headers | wc -l
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
