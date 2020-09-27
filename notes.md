@@ -194,6 +194,76 @@ Both the above commands have their own challenges. While one of it cannot accept
 
 https://kubernetes.io/docs/reference/kubectl/conventions/
 
+## Taints applies to Nodes
+- https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+
+```bash
+kubectl taint nodes node-name key=value:taint-effect
+```
+
+Checking the taint of the master node
+```bash
+kubectl describe node kubemaster | grep Taint
+```
+
+What happens to PODs that DO NOT TOLARATE this taint?
+- NoSchedule
+  - if there is at least one un-ignored taint with effect NoSchedule then Kubernetes will not schedule the pod onto that node
+- PreferNoSchedule
+  - if there is no un-ignored taint with effect NoSchedule but there is at least one un-ignored taint with effect PreferNoSchedule then Kubernetes will try to not schedule the pod onto the node
+- NoExecute
+  - if there is at least one un-ignored taint with effect NoExecute then the pod will be evicted from the node (if it is already running on the node), and will not be scheduled onto the node (if it is not yet running on the node).
+
+```bash
+kubectl taint nodes node01 app=blue:NoSchedule
+kubectl taint nodes node01 spray=mortein:NoSchedule
+```
+
+Remove the taint from a node
+```bash
+kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule-
+```
+
+## Tolerations applies to PODs
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+  tolerations:
+  - key: "app"
+    operator: "Equal"
+    value: "blue"
+    effect: "NoSchedule"
+```
+
+## Label Nodes
+
+```bash
+kubectl label nodes <node-name> <label-key>=<label-value>
+```
+
+## Resource Requirements and Limits
+- https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+- https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/
+- https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/cpu-default-namespace/
+
+Default for Requests:
+- Memory: 256Mi
+- CPU: 0.5
+Default for Limits:
+- Memory: 512 Mi
+- CPU: 1
+
+## Static Pods
+```bash
+kubectl run --restart=Never --image=busybox static-busybox --dry-run=client -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml
+```
 
 ## Kubectl Cheat Sheet
 - https://kubernetes.io/docs/reference/kubectl/cheatsheet/

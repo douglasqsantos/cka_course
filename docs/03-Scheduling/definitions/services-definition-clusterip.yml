@@ -1,0 +1,16 @@
+# kubectl api-resources
+# kubectl api-versions
+# kubectl explain services
+# kubectl get services
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end-service
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: myapp
+    type: front-end

@@ -19,12 +19,4 @@ spec:
       image: nginx
       ports:
         - containerPort: 80
-  # Node Taint
-  # kubectl taint nodes node1 app=blue:NoSchedule
-  tolerations:
-  - key: "app"
-    operator: "Equal"
-    value: "blue"
-    effect: "NoSchedule"
-  nodeSelector:
-    size: Large
+  # nodeName: node01 - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename
